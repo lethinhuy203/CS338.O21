@@ -1,2 +1,4 @@
 # CS338.O21
-run file __init__.py
+
+Chạy sh run.sh
+Hoặc vô đó đọc rồi cài theo đang lười viết doc

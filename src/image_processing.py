@@ -122,7 +122,6 @@ def predict(model, img):
     print(f'Predicted class: {pred_class_name}')
 
     return pred_class_name, pred_class_prob, probs
-v_predict = np.vectorize(predict)
 
 
 def predict_sample(image_path, fetch=False, threshold=0.5, model=None):

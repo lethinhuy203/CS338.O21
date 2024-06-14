@@ -17,3 +17,6 @@ numpy==1.23.5
 tensorflow==2.15.0
 gdown==4.7.3
 pillow
+
+# WSGI production environment 
+waitress

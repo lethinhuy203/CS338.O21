@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 load_dotenv() 
 
-
 MODEL_PATH = os.getenv('MODEL_PATH')
 CLASS_NAMES = ['Apple___Apple_scab',
  'Apple___Black_rot',

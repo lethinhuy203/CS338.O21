@@ -38,10 +38,11 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+
     @app.route('/')
     def home():
         return render_template('home.html')
-
+      
 
     @app.route('/upload', methods=['GET', 'POST'])
     def upload():

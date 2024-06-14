@@ -1,12 +1,12 @@
-from flask import Flask, flash, render_template, request, redirect, url_for, send_from_directory, jsonify
-from flask_cors import CORS, cross_origin
-from flask_restful import Resource, Api 
-from werkzeug.datastructures import FileStorage 
+from flask import Flask, flash, render_template, request, redirect, url_for, send_from_directory, session
+from flask_cors import CORS
+from flask_restful import Api 
 import cloudinary 
 from cloudinary.uploader import upload as cloudinary_upload
 from .utils import allowed_file
 import os
 from dotenv import load_dotenv
+from .image_processing import load_model_tf, predict_sample
 # loading variables from .env file
 load_dotenv() 
 
@@ -28,6 +28,7 @@ cloudinary.config.update = ({
 # Cấu hình thư mục upload bên ngoài thư mục static
 UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 
 @app.route('/')
@@ -55,11 +56,9 @@ def upload():
                 folder=UPLOAD_FOLDER
             )
             filename = file.filename
-            return redirect(url_for(
-                'result', 
-                filename=filename, 
-                url=upload_result['url']
-            ))
+            session['url'] = upload_result['url']
+            session['filename'] = filename
+            return redirect(url_for('result'))
         else:
             flash("File type not allowed!", "error")
 
@@ -73,6 +72,6 @@ def uploaded_file(filename):
 
 @app.route('/result')
 def result():
-    filename = request.args.get('filename')
-    url = request.args.get('url')
+    filename = session.get('filename')
+    url = session.get("url")
     return render_template('result.html', filename=filename, url=url)

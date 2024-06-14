@@ -3,6 +3,10 @@ from PIL import Image
 import numpy as np
 import os, gdown
 from .utils import get_url_images_in_text
+from dotenv import load_dotenv
+
+load_dotenv() 
+
 
 MODEL_PATH = os.getenv('MODEL_PATH')
 CLASS_NAMES = ['Apple___Apple_scab',
@@ -45,11 +49,6 @@ CLASS_NAMES = ['Apple___Apple_scab',
  'Tomato___healthy']
 
 
-if MODEL_PATH not in os.listdir():
-    os.makedirs(MODEL_PATH)
-
-
-
 def download_model(drive_url, model_name):
     """Downloads a model from Google Drive if not already present."""
     model_path = os.path.join(MODEL_PATH, f"{model_name}.h5")
@@ -61,7 +60,15 @@ def download_model(drive_url, model_name):
             quiet=False,
             fuzzy=True # extract drive id from drive URL 
         ) 
-    
+
+
+try:
+    if MODEL_PATH not in os.listdir('.'):
+        os.makedirs(MODEL_PATH)
+except OSError as e: # name the Exception `e`
+        print( "Failed with:", e.strerror) # look what it says
+        print( "Error code:", e.code )
+
 
 def load_model_tf(model_name:str):
     """

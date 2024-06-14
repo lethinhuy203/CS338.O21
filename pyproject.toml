@@ -1,5 +1,5 @@
 [project]
-name = "LeafDoctor"
+name = "src"
 version = "1.0.0"
 description = "A web that helps users classify leaf diseases at ease"
 dependencies = [
@@ -10,6 +10,9 @@ dependencies = [
     "gdown",
     "cloudinary",
     "python-dotenv",
+    "pillow",
+    "gunicorn",
+    "waitress"
 ]
 
 [build-system]

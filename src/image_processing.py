@@ -7,8 +7,6 @@ from dotenv import load_dotenv
 
 load_dotenv() 
 
-
-
 MODEL_PATH = os.getenv('MODEL_PATH')
 CLASS_NAMES = ['Apple___Apple_scab',
  'Apple___Black_rot',
@@ -61,7 +59,15 @@ def download_model(drive_url, model_name):
             quiet=False,
             fuzzy=True # extract drive id from drive URL 
         ) 
-    
+
+
+try:
+    if MODEL_PATH not in os.listdir('.'):
+        os.makedirs(MODEL_PATH)
+except OSError as e: # name the Exception `e`
+        print( "Failed with:", e.strerror) # look what it says
+        print( "Error code:", e.code )
+
 
 def load_model_tf(model_name:str):
     """

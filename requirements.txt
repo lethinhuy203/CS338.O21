@@ -7,8 +7,10 @@ cloudinary==1.40.0
 # enable CORS for upload image from a different client from server 
 flask-cors==4.0.1
 flask-restful
-flask-sqlalchemy==3.0.3
-Flask-Migrate
+
+# WSGI production environment 
+waitress
+gunicorn
 
 # for processing and predicting image
 numpy==1.23.5

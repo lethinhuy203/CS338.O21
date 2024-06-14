@@ -9,14 +9,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   </head>
   <body>
+    <div class="nav">
+      <div class="converted-2"></div>
+      <span class="leaf-doctor-3">LEAF DOCTOR</span>
+    </div>
     <div class="main-container">
-      <div class="frame">
-        <div class="frame-1">
-          <span class="leaf-doctor">LEAF DOCTOR</span>
-        </div>
-        <div class="converted-2"></div>
-        <span class="leaf-doctor-3">LEAF DOCTOR</span>
-      </div>
       {% block content %}
       {% endblock %}
     </div>

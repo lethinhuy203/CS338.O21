@@ -3,6 +3,11 @@ from PIL import Image
 import numpy as np
 import os, gdown
 from .utils import get_url_images_in_text
+from dotenv import load_dotenv
+
+load_dotenv() 
+
+
 
 MODEL_PATH = os.getenv('MODEL_PATH')
 CLASS_NAMES = ['Apple___Apple_scab',
@@ -43,11 +48,6 @@ CLASS_NAMES = ['Apple___Apple_scab',
  'Tomato___Tomato_Yellow_Leaf_Curl_Virus',
  'Tomato___Tomato_mosaic_virus',
  'Tomato___healthy']
-
-
-if MODEL_PATH not in os.listdir():
-    os.makedirs(MODEL_PATH)
-
 
 
 def download_model(drive_url, model_name):

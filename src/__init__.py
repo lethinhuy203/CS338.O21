@@ -12,10 +12,13 @@ load_dotenv()
 
 # Khởi tạo và cài đặt Flask
 app = Flask(__name__)
+
+UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 api = Api(app) 
 # Cho phép tất cả API được vượt tường
 CORS(app)
-
 
 # Cấu hình Cloudinary 
 cloudinary.config.update = ({
@@ -24,11 +27,6 @@ cloudinary.config.update = ({
     'api_secret': os.getenv('CLOUDINARY_API_SECRET')
 })
 
-
-# Cấu hình thư mục upload bên ngoài thư mục static
-UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER')
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 @app.route('/')
 def home():
@@ -78,3 +76,8 @@ def result():
     #TODO: retrieve info from database
     
     return render_template('result.html', filename=pred_results[0], url=url)
+
+
+def create_app():
+    global app
+    return app

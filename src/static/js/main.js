@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const submitBtn = document.getElementById('submitBtn');
+    var loader = document.querySelector('.loader-container')
 
     // Thêm lớp dragover khi file được kéo vào
     dropZone.addEventListener('dragover', (e) => {
@@ -26,6 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
             fileInput.files = files;
             submitBtn.click(); // Tự động submit form khi file được thả vào
         }
+        // an drop zone va hien loader
+        dropZone.style.display = 'none'; 
+        loader.style.display = 'flex';
     });
 
     // Mở hộp thoại chọn file khi click vào drop zone
@@ -36,5 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Tự động submit form khi file được chọn
     fileInput.addEventListener('change', () => {
         submitBtn.click();
+        // an drop zone va hien loader
+        dropZone.style.display = 'none'; 
+        loader.style.display = 'flex';
     });
 });

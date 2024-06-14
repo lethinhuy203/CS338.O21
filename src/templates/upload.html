@@ -10,7 +10,10 @@
     </div>
     <button type="submit" id="submitBtn">Upload</button>
 </form>
-
+<div class="loader-container">
+    <div class="loader"></div>
+    <p>Đang xử lý dữ liệu...</p>
+</div>
 <!-- Liên kết đến file JavaScript -->
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

@@ -5,13 +5,10 @@
     "Source Han Sans CN", sans-serif;
 }
 
-.main-container {
-  overflow: hidden;
-}
-
-.main-container,
-.main-container * {
-  box-sizing: border-box;
+html, body {
+  font-family: Montserrat, var(--default-font-family);
+  margin: 0;
+  padding: 0;
 }
 
 input,
@@ -23,130 +20,84 @@ button {
 
 .main-container {
   position: relative;
-  width: 1200px;
-  height: 1672px;
+  width: 95vw;
   margin: 0 auto;
+  padding-top: 10vh;
   background: #ffffff;
   overflow: hidden;
 }
-.frame {
-  position: relative;
-  width: 1200px;
-  height: 107px;
-  margin: 0 0 0 0;
-  overflow: hidden;
-}
-.frame-1 {
-  position: absolute;
-  width: 1200px;
-  height: 107px;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  overflow: hidden;
-}
-.converted {
-  position: absolute;
-  width: 127px;
-  height: 104px;
-  top: 10px;
-  left: 0;
-  background: url("../images/logo.png")
-    no-repeat center;
-  background-size: cover;
-  z-index: 4;
-}
-.leaf-doctor {
+
+.nav {
+  position: fixed;
+  background-color: #ffffff;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  width: 153px;
-  height: 79px;
-  top: 27px;
-  left: 104px;
-  color: #4d822b;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 39.008px;
-  text-align: left;
-  z-index: 5;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 10vh;
+  overflow: hidden;
+  z-index: 1000;
 }
+
 .converted-2 {
-  position: absolute;
   width: 127px;
-  height: 104px;
-  top: 10px;
-  left: 0;
-  background: url("../images/logo.png")
-    no-repeat center;
+  height: 8vh;
+  background: url("../images/logo.png") no-repeat center;
   background-size: cover;
   z-index: 1;
 }
 .leaf-doctor-3 {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  width: 153px;
-  height: 79px;
-  top: 27px;
-  left: 104px;
+  width: 10vw;
   color: #4d822b;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 32px;
+  font-size: 1.5vw;
   font-weight: 700;
-  line-height: 39.008px;
+  line-height: 1.8vw;
   text-align: left;
   z-index: 2;
 }
 .main-frame {
   position: relative;
-  width: 1200px;
-  height: 1552px;
-  margin: 13px 0 0 0;
+  width: 95vw;
+  /* height: 1552px; */
   z-index: 6;
   overflow: hidden;
 }
 .frame-4 {
   position: relative;
-  width: 1200px;
-  height: 679px;
+  width: 95vw;
+  height: 35vw;
   margin: 2px 0 0 0;
   z-index: 7;
   overflow: hidden;
 }
 .frame-5 {
   position: relative;
-  width: 757px;
-  height: 590px;
-  margin: 0 0 0 438px;
+  display: flex;
+  justify-content: center;
+  height:100%;
+  flex-direction: column;
+  margin:auto;
+  margin-left: 50vw;
   font-size: 0px;
   z-index: 10;
   overflow: hidden;
 }
 .leaf-detection {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
   position: relative;
-  width: 609px;
-  height: 119px;
-  margin: 264px 0 0 98px;
   color: #ffffff;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 50px;
+  font-size: 3.5vw;
   font-weight: 400;
-  line-height: 60.95px;
+  line-height: 4.3vw;
   text-align: left;
   z-index: 13;
 }
 .button {
   position: relative;
-  width: 563px;
-  height: 85px;
-  margin: 36px 0 0 98px;
+  width: 40vw;
+  height: 20%;
+  margin-top: 1vw;
   cursor: pointer;
   font-size: 0px;
   border: none;
@@ -157,7 +108,7 @@ button {
   left: 0;
   background: #569230;
   z-index: 15;
-  border-radius: 50px;
+  border-radius: 5000px;
 }
 .button:hover {
   background: #3e6823; /* Thay đổi màu chữ khi trỏ chuột vào nút */
@@ -167,14 +118,13 @@ button {
   align-items: flex-start;
   justify-content: center;
   position: relative;
-  width: 510.628px;
-  height: 42.876px;
-  margin: 5px 0 0 27px;
+  width: 100%;
+  margin: auto;
   color: #ffffff;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 40px;
+  font-size: 3vw;
   font-weight: 400;
-  line-height: 42.876px;
+  line-height: 4.2px;
   text-align: center;
   white-space: nowrap;
   z-index: 16;
@@ -183,118 +133,96 @@ button {
   color: #c2c0c0; /* Màu chữ khi trỏ chuột vào text trong nút */
 }
 .do-an {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 59px;
-  top: 86px;
-  left: 96px;
   color: #ffffff;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 40px;
+  font-size: 4vw;
   font-weight: 400;
-  line-height: 48.76px;
+  line-height: 5.2vw;
   text-align: left;
   white-space: nowrap;
   z-index: 11;
 }
 .cs338 {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 138px;
-  top: 123px;
-  left: 98px;
   color: #ffffff;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 96px;
+  font-size: 7vw;
   font-weight: 700;
-  line-height: 117.024px;
+  line-height: 8.2vw;
   text-align: left;
   white-space: nowrap;
   z-index: 12;
 }
 .chu-nong-dan {
   position: absolute;
-  width: 1357px;
-  height: 783px;
+  width: 95vw;
+  height: 35vw;
   top: 0;
-  left: -157px;
-  background: url("../images/chunongdan.png")
-    no-repeat center;
+  background: url("../images/chunongdan.png") no-repeat center;
   background-size: cover;
   z-index: 8;
 }
 .rectangle-6 {
   position: absolute;
-  width: 1357px;
-  height: 783px;
+  width: 95vw;
+  height: 35vw;
   top: 0;
-  left: -157px;
-  background: url("../images/gradient.png")
-    no-repeat center;
+  background: url("../images/gradient.png") no-repeat center;
   background-size: cover;
   z-index: 9;
 }
 .frame-7 {
   position: relative;
-  width: 1200px;
-  height: 162px;
+  width: 100%;
+  height: 10vw;
   margin: 0 0 0 0;
   z-index: 17;
   overflow: hidden;
 }
 .read-more {
   position: relative;
-  width: 420px;
-  height: 57px;
-  margin: 52px 0 0 390px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  margin: auto;
   z-index: 18;
 }
+
 .read-more-8 {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  position: absolute;
-  width: 53.81%;
-  height: 100%;
   top: 0;
   left: 15.24%;
   color: #4d822b;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 40px;
+  font-size: 3vw;
   font-weight: 300;
-  line-height: 48.76px;
+  line-height: 4vw;
   text-align: center;
   white-space: nowrap;
   z-index: 19;
 }
 .vector {
-  position: absolute;
-  width: 9.52%;
-  height: 28.07%;
-  top: 36.84%;
-  left: 75.48%;
-  background: url("../images/readmore.png")
-    no-repeat center;
+  width: 4vw;
+  height: 3vw;
+  background: url("../images/readmore.png") no-repeat center;
   background-size: 100% 100%;
+  padding: auto;
+  margin-left: 1vw;
   z-index: 20;
 }
 .frame-9 {
   position: relative;
-  width: 1012px;
-  height: 709px;
-  margin: 0 0 0 85px;
+  width: 95vw;
+  margin: 0 5vw;
+  padding-bottom: 4vw;
   z-index: 21;
   overflow: hidden;
 }
 .about {
   position: relative;
-  width: 494px;
-  height: 201px;
-  margin: 25px 0 0 0;
+  width: 100%;
+  margin: 25px 0 5vw 0;
   z-index: 22;
   overflow: visible auto;
 }
@@ -302,34 +230,27 @@ button {
   position: relative;
   width: 171px;
   height: 33px;
-  margin: 0 0 0 31px;
   background: #4d822b;
   z-index: 24;
 }
 .about-b {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
   position: relative;
-  width: 428px;
-  height: 168px;
-  margin: 0 0 0 -2px;
   color: #4d822b;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 110px;
+  font-size: 7vw;
   font-weight: 800;
-  line-height: 134.09px;
+  line-height: 8vw;
   text-align: center;
   white-space: nowrap;
   z-index: 23;
 }
 .frame-c {
   position: relative;
-  width: 1012px;
-  height: 257px;
-  margin: 0 0 0 15px;
-  background: url("../images/vanban.png")
-    no-repeat center;
+  width: 85vw;
+  height: 22vw;
+  background: url("../images/vanban.png") no-repeat center;
   background-size: cover;
   z-index: 25;
 }
@@ -337,8 +258,8 @@ button {
 /* Định dạng drop zone */
 #dropZone {
   width: 100%; /* Chiều rộng 80% của container */
-  max-width: 1110px;
-  height: 400px;
+  max-width: 80vw;
+  height: 70vh;
   border: 2px solid #4d822b;
   text-align: center;
   line-height: 200px;
@@ -419,3 +340,27 @@ button {
   margin-top: 10px;
 }
 
+.loader-container {
+  display:flex; 
+  justify-content:center;
+  align-items:center;
+  flex-direction: column;
+  width: 100vw;
+  height: 90vh;
+  display: none;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #4d822b;; /* Green */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  align-items: center;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

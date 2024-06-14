@@ -6,7 +6,7 @@ from cloudinary.uploader import upload as cloudinary_upload
 from .utils import allowed_file
 import os
 from dotenv import load_dotenv
-from .image_processing import load_model_tf, predict_sample
+from .image_processing import predict_sample, predict_ensemble_sample
 # loading variables from .env file
 load_dotenv() 
 
@@ -29,7 +29,6 @@ cloudinary.config.update = ({
 UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
 
 @app.route('/')
 def home():
@@ -56,7 +55,8 @@ def upload():
                 folder=UPLOAD_FOLDER
             )
             filename = file.filename
-            session['url'] = upload_result['url']
+            url = upload_result['url']
+            session['url'] = url
             session['filename'] = filename
             return redirect(url_for('result'))
         else:
@@ -74,4 +74,7 @@ def uploaded_file(filename):
 def result():
     filename = session.get('filename')
     url = session.get("url")
-    return render_template('result.html', filename=filename, url=url)
+    pred_results = predict_ensemble_sample(url, fetch=True, threshold=0.7)
+    #TODO: retrieve info from database
+    
+    return render_template('result.html', filename=pred_results[0], url=url)

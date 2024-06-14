@@ -4,5 +4,7 @@
 python -m venv venv
 source venv/Scripts/activate
 
+# install required packages
+pip install -r requirements.txt
 # run code
-python __init__.py
+flask --app flaskr run --debug

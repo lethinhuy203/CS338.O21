@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload - Leaf Doctor{% endblock %}
+
+{% block content %}
+<form method="POST" action="/upload" enctype="multipart/form-data" id="uploadForm">
+    <input type="file" name="file" id="fileInput">
+    <div id="dropZone">
+        Drop image here or click to upload
+    </div>
+    <button type="submit" id="submitBtn">Upload</button>
+</form>
+
+<!-- Liên kết đến file JavaScript -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

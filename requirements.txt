@@ -1,1 +1,16 @@
+# flask 
 Flask==3.0.3
+# environment variable
+python-dotenv
+# SDK framework
+cloudinary==1.40.0
+# enable CORS for upload image from a different client from server 
+flask-cors==4.0.1
+flask-restful
+flask-sqlalchemy==3.0.3
+Flask-Migrate
+
+# for processing and predicting image
+numpy==1.23.5
+tensorflow==2.15.0
+gdown==4.7.3

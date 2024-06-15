@@ -9,6 +9,7 @@ html, body {
   font-family: Montserrat, var(--default-font-family);
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
 }
 
 input,
@@ -39,13 +40,24 @@ button {
   z-index: 1000;
 }
 
-.converted-2 {
-  width: 127px;
-  height: 8vh;
-  background: url("../images/logo.png") no-repeat center;
-  background-size: cover;
-  z-index: 1;
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 230px;
+  height: 107px;
+  cursor: pointer;
 }
+
+.converted-2 {
+  width: 100px;
+  height: 15vh;
+  background: url("../images/logo.png") no-repeat center;
+  background-size: contain; /* Hoặc cover tùy theo yêu cầu */
+  z-index: 1;
+  margin: 0 auto; /* Căn giữa theo chiều ngang */
+}
+
 .leaf-doctor-3 {
   width: 10vw;
   color: #4d822b;
@@ -202,6 +214,12 @@ button {
   white-space: nowrap;
   z-index: 19;
 }
+
+.read-more-8:hover {
+  color: #6bb43d; /* Màu mới khi di chuột, ví dụ: màu cam */
+  cursor: pointer; /* Thay đổi con trỏ chuột thành dạng pointer khi hover */
+}
+
 .vector {
   width: 4vw;
   height: 3vw;
@@ -273,6 +291,7 @@ button {
   color: #4d822b; /* Màu chữ */
   text-transform: uppercase; /* Chữ in hoa */
   letter-spacing: 1px; /* Khoảng cách giữa các chữ */
+  cursor: pointer;
 }
 
 /* Định dạng drop zone khi có file kéo vào */
@@ -315,6 +334,7 @@ button {
   border-radius: 10px;    /* Bo góc khung */
   border: 2px solid #4d822b; /* Đường viền của khung ảnh */
   background-color: #ffffff; /* Màu nền cho khung (tùy chọn) */
+  cursor: pointer;
 }
 
 /* Định dạng ảnh bên trong khung */
@@ -363,4 +383,50 @@ button {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Custom Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
 }

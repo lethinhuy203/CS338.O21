@@ -10,12 +10,15 @@
   </head>
   <body>
     <div class="nav">
-      <div class="converted-2"></div>
-      <span class="leaf-doctor-3">LEAF DOCTOR</span>
+      <div class="logo" id="logo-frame">
+        <div class="converted-2"></div>
+        <span class="leaf-doctor-3">LEAF DOCTOR</span>
+      </div>
     </div>
     <div class="main-container">
       {% block content %}
       {% endblock %}
     </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   </body>
 </html>

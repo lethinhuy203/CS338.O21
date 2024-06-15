@@ -4,14 +4,34 @@
 
 {% block content %}
 <div class="result-container">
-    <div class="image-box">
+    <div class="image-box" id="image-box">
         <!-- Hiển thị hình ảnh đã upload từ thư mục uploads -->
         <img src="{{ url }}" alt="Uploaded Image">
     </div>
-    <div class="info-box">
-        <!-- Hiển thị tên file -->
-        <p>Kết quả tình trạng lá của bạn:</p>
-        <p class="filename">{{ filename }}</p>
+    <div class="info-box" id="info">
+        <!-- Hiển thị kết quả -->
+        <p><strong>Kết quả tình trạng lá của bạn:</strong></p>
+        <p>_______________________________</p>
+        {% if condition == "Lá khỏe mạnh" %}
+            <p class="condition">Lá khỏe mạnh</p>
+        {% elif condition == "Xin lỗi! Chúng tôi không thể xác định lá của bạn" %}
+            <p class="condition">{{ condition }}</p>
+        {% else %}
+            <p><strong>Tên lá:</strong> {{ condition["Tên lá"] }}</p>
+            <p><strong>Bệnh:</strong> {{ condition["Bệnh"] }}</p>
+            <p><strong>Biểu hiện:</strong> {{ condition["Biểu hiện"] }}</p>
+            <p><strong>Giải pháp:</strong> {{ condition["Giải pháp"] }}</p>
+            <p><strong>Confidence score:</strong> {{ condition["Confidence score"] }}</p>
+        {% endif %}
     </div>
+</div>
+<!-- Form Upload -->
+<form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" style="display: none;">
+    <input type="file" name="file" id="fileInput" accept=".jpg, .jpeg, .png" required>
+    <input type="submit" value="Upload">
+</form>
+<div class="loader-container">
+    <div class="loader"></div>
+    <p>Đang xử lý dữ liệu...</p>
 </div>
 {% endblock %}

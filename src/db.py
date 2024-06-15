@@ -33,7 +33,7 @@ def init_db():
 
     click.echo('Downloading data.csv...')
     gdown.download(
-        'https://drive.google.com/file/d/1q3Kk0304oGouHwKR_XWVBBLmaPc8AV6s/view?usp=drive_link',
+        'https://drive.google.com/file/d/107K-OqGSLV25-HvlLw_sJXJHlWymtIUI/view?usp=drive_link',
         'data.csv', 
         fuzzy=True
     )

@@ -15,6 +15,7 @@ gunicorn
 # for processing and predicting image
 numpy==1.23.5
 tensorflow==2.15.0
+tensorflow-addons
 gdown==4.7.3
 pillow
 

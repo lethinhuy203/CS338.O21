@@ -12,9 +12,6 @@ html, body {
   scroll-behavior: smooth;
 }
 
-input,
-select,
-textarea,
 button {
   outline: 0;
 }
@@ -44,18 +41,17 @@ button {
   display: flex;
   align-items: center;
   cursor: pointer;
-  width: 230px;
-  height: 107px;
+  width: 20vw;
+  height: 8vh;
   cursor: pointer;
 }
 
 .converted-2 {
-  width: 100px;
+  width: 10vw;
   height: 15vh;
   background: url("../images/logo.png") no-repeat center;
   background-size: contain; /* Hoặc cover tùy theo yêu cầu */
   z-index: 1;
-  margin: 0 auto; /* Căn giữa theo chiều ngang */
 }
 
 .leaf-doctor-3 {
@@ -207,7 +203,7 @@ button {
   left: 15.24%;
   color: #4d822b;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 3vw;
+  font-size: 2vw;
   font-weight: 300;
   line-height: 4vw;
   text-align: center;
@@ -221,8 +217,8 @@ button {
 }
 
 .vector {
-  width: 4vw;
-  height: 3vw;
+  width: 2vw;
+  height: 1vw;
   background: url("../images/readmore.png") no-repeat center;
   background-size: 100% 100%;
   padding: auto;
@@ -257,7 +253,7 @@ button {
   position: relative;
   color: #4d822b;
   font-family: Montserrat, var(--default-font-family);
-  font-size: 7vw;
+  font-size: 6vw;
   font-weight: 800;
   line-height: 8vw;
   text-align: center;
@@ -287,7 +283,7 @@ button {
   border-radius: 15px; /* Bo góc với bán kính 15px */
   /* Chỉnh sửa kiểu chữ */
   font-family: Montserrat, var(--default-font-family); /* Kiểu chữ */
-  font-size: 15px; /* Cỡ chữ */
+  font-size: 1.3vw; /* Cỡ chữ */
   color: #4d822b; /* Màu chữ */
   text-transform: uppercase; /* Chữ in hoa */
   letter-spacing: 1px; /* Khoảng cách giữa các chữ */
@@ -309,9 +305,6 @@ button {
   display: none;
 }
 
-/* style.css */
-
-/* Định dạng container chứa hình ảnh và thông tin */
 .result-container {
   width: 100%; /* Chiều rộng 80% của container */
   max-width: 1000px;
@@ -325,8 +318,8 @@ button {
 
 /* Định dạng khung hình ảnh */
 .image-box {
-  width: 500px;           /* Chiều rộng cố định của khung */
-  height: 400px;          /* Chiều cao cố định của khung */
+  width: 30vw;           /* Chiều rộng cố định của khung */
+  height: 60vh;          /* Chiều cao cố định của khung */
   display: flex;          /* Sử dụng flexbox để căn giữa hình ảnh */
   justify-content: center;/* Căn giữa hình ảnh theo chiều ngang */
   align-items: center;    /* Căn giữa hình ảnh theo chiều dọc */
@@ -350,14 +343,8 @@ button {
   flex: 1;
   text-align: left;       /* Căn trái cho tên file */
   font-family: Montserrat, var(--default-font-family);/* Kiểu chữ */
-  font-size: 18px;        /* Cỡ chữ */
+  font-size: 1.75vw;        /* Cỡ chữ */
   color: #4d822b;            /* Màu chữ */
-}
-
-.info-box .filename {
-  font-weight: bold;      /* Đậm chữ cho tên file */
-  color: #000;            /* Màu đậm hơn cho tên file */
-  margin-top: 10px;
 }
 
 .loader-container {
@@ -380,53 +367,220 @@ button {
   animation: spin 2s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+/* Media Queries cho thiết bị di động và tablet */
+@media (max-width: 768px) {
+  .main-container,
+  .main-frame,
+  .frame-4,
+  .frame-9 {
+    width: 100vw;
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .frame-5{
+    display: flex;
+    flex-direction: column; /* Đảm bảo các phần tử tự động xuống dòng */
+    text-align: left; /* Căn giữa văn bản */
+    right: 10vw;
+    padding: 10px;
+  }
 
-/* Custom Toggle Switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
+  .nav {
+    flex-direction: column;
+    height: auto;
+  }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+  .logo {
+    width: 20vw;
+    height: auto;
+  }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 34px;
-}
+  .read-more-8,
+  .leaf-doctor-3 {
+    font-size: 2vw;
+    line-height: normal;
+  }
+  .leaf-detection,
+  .start-process,
+  .do-an,
+  .cs338,
+  .about-b,
+  .info-box {
+    font-size: 4vw;
+    line-height: normal;
+  }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
+  .button {
+    width: 45vw;
+    font-size: 2vw;
+  }
 
-input:checked + .slider {
-  background-color: #4caf50;
-}
+  .button:hover {
+    background: #4d822b;
+  }
 
-input:checked + .slider:before {
-  transform: translateX(26px);
+  .converted-2{
+    width: 100%;
+    height: 9vh;
+    background: url("../images/logo.png") no-repeat center;
+    background-size: contain;
+  }
+
+  .chu-nong-dan{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("../images/chunongdan.png") no-repeat center;
+    background-size: cover;
+    top: 0;
+    z-index: 9;
+    }
+
+  .rectangle-6{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("../images/gradient.png") no-repeat center;
+    background-size: cover;
+  }
+  .frame-c {
+    position: relative;
+    width: 85vw;
+    height: 22vw;
+    background: url("../images/vanban.png") no-repeat center;
+    background-size: cover;
+  }
+
+  #dropZone {
+    width: 90vw;
+    height: 50vh;
+    font-size: 2vw;
+  }
+
+  .result-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .info-box {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    height: auto;
+    text-align: left;
+  }
+
+  .image-box {
+    width: 70vw;
+    height: auto;
+  }
+}
+@media (max-width: 480px) {
+  .main-container,
+  .main-frame,
+  .frame-4,
+  .frame-9 {
+    width: 100vw;
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .frame-5{
+    display: flex;
+    flex-direction: column; /* Đảm bảo các phần tử tự động xuống dòng */
+    text-align: left; /* Căn giữa văn bản */
+    right: 10vw;
+    padding: 10px;
+  }
+
+  .nav {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .logo {
+    width: 20vw;
+    height: auto;
+  }
+
+  .read-more-8,
+  .leaf-doctor-3 {
+    font-size: 2vw;
+    line-height: normal;
+  }
+  .leaf-detection,
+  .start-process,
+  .do-an,
+  .cs338,
+  .about-b,
+  .info-box {
+    font-size: 4vw;
+    line-height: normal;
+  }
+
+  .button {
+    width: 45vw;
+    font-size: 2vw;
+  }
+
+  .button:hover {
+    background: #4d822b;
+  }
+
+  .converted-2{
+    width: 100%;
+    height: 9vh;
+    background: url("../images/logo.png") no-repeat center;
+    background-size: contain;
+  }
+
+  .chu-nong-dan{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("../images/chunongdan.png") no-repeat center;
+    background-size: cover;
+    top: 0;
+    z-index: 9;
+    }
+
+  .rectangle-6{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("../images/gradient.png") no-repeat center;
+    background-size: cover;
+  }
+  .frame-c {
+    position: relative;
+    width: 85vw;
+    height: 22vw;
+    background: url("../images/vanban.png") no-repeat center;
+    background-size: cover;
+  }
+
+  #dropZone {
+    width: 90vw;
+    height: 50vh;
+    font-size: 2vw;
+  }
+
+  .result-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .info-box {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    height: auto;
+    text-align: left;
+  }
+
+  .image-box {
+    width: 70vw;
+    height: auto;
+  }
 }

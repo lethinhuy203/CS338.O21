@@ -11,7 +11,6 @@ from torchvision import transforms
 import torch
 import sklearn
 import pickle
-import ultralytics
 from ultralytics import YOLO
 
 

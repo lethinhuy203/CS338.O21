@@ -59,7 +59,7 @@ def download_model(drive_url, model_name):
         print(f"Downloading model: {model_name}")
         gdown.download(
             drive_url, 
-            os.path.join(MODEL_PATH, f'{model_name}.h5'), 
+            model_path, 
             quiet=False,
             fuzzy=True # extract drive id from drive URL 
         ) 

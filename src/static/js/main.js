@@ -7,6 +7,20 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = '/';
         });
     }
+
+    // Xử lý ẩn hiện confidence score
+    if (document.querySelector('.toggle')) {
+      const toggle = document.querySelector('.toggle');
+      const togglePlaceholder = toggle.querySelector('.toggle-placeholder');
+      const confScore = toggle.querySelector('.confidence-score');
+      toggle.addEventListener('click', () => {
+        const temp = togglePlaceholder.style.display;
+        console.log(togglePlaceholder.style.display);
+        togglePlaceholder.style.display = confScore.style.display;
+        confScore.style.display = temp;
+      });
+  }
+
     // Kiểm tra nếu đang ở trang home.html
     if (document.getElementById('read-more')) {
         const readMore = document.getElementById('read-more');

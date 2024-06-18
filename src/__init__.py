@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_restful import Api 
 import cloudinary 
 from cloudinary.uploader import upload as cloudinary_upload
-from .utils import allowed_file
+from .utils import allowed_file, retrieve_info, log_prediction
 import os
 from dotenv import load_dotenv
 from .image_processing import predict_sample, predict_ensemble_sample
@@ -81,27 +81,10 @@ def create_app():
         pred_results = predict_ensemble_sample(url, fetch=True, threshold=0.7)
         disease_id, confidence_score, props = pred_results
 
-        db = get_db()
-        plant_disease_info = None
-        condition = ""
+        # save prediction log for future use
+        log_prediction(url, disease_id)
 
-        if disease_id != 'Unknown':
-            plant_disease_info = db.execute(
-                'SELECT * FROM PlantDisease WHERE disease_id = ?', (disease_id,)
-            ).fetchone()
-
-        if disease_id == 'Unknown':
-            condition = "Xin lỗi! Chúng tôi không thể xác định lá của bạn"
-        elif plant_disease_info is None:
-            condition = "Lá khỏe mạnh"
-        else:
-            condition = {
-                "Tên lá": plant_disease_info['plant_name'],
-                "Bệnh": plant_disease_info['disease_name'],
-                "Biểu hiện": plant_disease_info['affect'],
-                "Giải pháp": plant_disease_info['solution'],
-                "Confidence score": confidence_score
-            }
+        condition = retrieve_info(disease_id)
 
         return render_template('result.html', filename=filename, url=url, condition=condition)
 

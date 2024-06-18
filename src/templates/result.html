@@ -12,16 +12,29 @@
         <!-- Hiển thị kết quả -->
         <p><strong>Kết quả tình trạng lá của bạn:</strong></p>
         <p>_______________________________</p>
-        {% if condition == "Lá khỏe mạnh" %}
-            <p class="condition">Lá khỏe mạnh</p>
-        {% elif condition == "Xin lỗi! Chúng tôi không thể xác định lá của bạn" %}
-            <p class="condition">{{ condition }}</p>
+        {% if condition['status'] == 1 %}
+            <p><strong>Tên lá:</strong> {{ condition["Tên lá"] }}</p>
+            <p class="condition">{{ condition["Chẩn đoán"] }}</p>
+        {% elif condition['status'] == 0 %}
+            <p class="condition">Xin lỗi! Chúng tôi không thể xác định lá của bạn</p>
         {% else %}
             <p><strong>Tên lá:</strong> {{ condition["Tên lá"] }}</p>
-            <p><strong>Bệnh:</strong> {{ condition["Bệnh"] }}</p>
+            <p><strong>Bệnh:</strong> {{ condition["Chẩn đoán"] }}</p>
             <p><strong>Biểu hiện:</strong> {{ condition["Biểu hiện"] }}</p>
             <p><strong>Giải pháp:</strong> {{ condition["Giải pháp"] }}</p>
-            <p><strong>Mức độ chính xác:</strong> {{ condition["Confidence score"] }}</p>
+        {% endif %}
+        <input type="checkbox"
+               id="switch"
+               class="checkbox" />
+                
+        <label for="switch"
+               class="toggle">
+            <div class="toggle-content">
+                <p class="toggle-placeholder">Show confidence score</p>
+                <p class="confidence-score"><strong>Score:</strong> {{ condition["Confidence score"] }}</p>
+            </div>
+        </label>
+        {% if "Confidence score" in condition %}
         {% endif %}
     </div>
 </div>

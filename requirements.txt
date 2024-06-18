@@ -16,7 +16,8 @@ gunicorn
 numpy==1.23.5
 gdown==4.7.3
 pillow
-opencv-python==4.8.0.76
+# opencv-python==4.8.0.76
+opencv-python-headless==4.8.0.76
 
 tensorflow==2.15.0
 tensorflow-addons

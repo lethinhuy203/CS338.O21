@@ -14,10 +14,18 @@ gunicorn
 
 # for processing and predicting image
 numpy==1.23.5
-tensorflow==2.15.0
-tensorflow-addons
 gdown==4.7.3
 pillow
 
-# WSGI production environment 
-waitress
+tensorflow==2.15.0
+tensorflow-addons
+
+torch==2.2.1
+torchvision==0.17.1
+
+# DINO + SVM
+scikit-learn==1.2.2
+
+# YOLO
+ultralytics==8.2.32
+onnx>=1.12.0

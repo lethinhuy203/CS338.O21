@@ -13,13 +13,13 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def log_prediction(image_url, disease_id):
+def log_prediction(image_url, pred_result, model_name):
     db = get_db()
-    sql = ''' INSERT INTO PredictionLog(image_url, disease_id)
-              VALUES(?,?) '''
+    sql = ''' INSERT INTO PredictionLog(image_url, predict_result, model_name)
+              VALUES(?,?,?) '''
     try:
         cur = db.cursor()
-        cur.execute(sql, (image_url, disease_id))
+        cur.execute(sql, (image_url, pred_result, model_name))
         db.commit()
     except:
         print('Already logged')

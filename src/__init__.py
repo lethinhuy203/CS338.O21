@@ -6,8 +6,7 @@ from cloudinary.uploader import upload as cloudinary_upload
 from .utils import allowed_file, retrieve_info, log_prediction
 import os
 from dotenv import load_dotenv
-from .image_processing import predict_sample, predict_ensemble_sample
-from src.db import get_db
+from .image_processing import predict_efficientnet, predict_ensemble, predict_dino, predict_yolo
 from . import db
 
 
@@ -51,7 +50,11 @@ def create_app():
                 return redirect(request.url)
             
             file = request.files['file']
-            
+            if request.form['selected-model-data']:
+                session['model-selected'] = request.form['selected-model-data']
+            else:
+                session['model-selected'] = 'ensemble'
+
             if file.filename == '':
                 flash("No selected file!", "error")
                 return redirect(request.url)
@@ -74,18 +77,37 @@ def create_app():
         return render_template('upload.html')
 
 
-    @app.route('/result')
+    @app.route('/result',  methods=['GET'])
     def result():
         filename = session.get('filename')
         url = session.get("url")
-        pred_results = predict_ensemble_sample(url, fetch=True, threshold=0.7)
-        disease_id, confidence_score, props = pred_results
+        model_name = session.get('model-selected')
+        confidence_score = None
+
+        match model_name:
+            case 'ensemble': 
+                pred_results = predict_ensemble(url, fetch=True, threshold=0.7)
+                disease_id, confidence_score, props = pred_results
+                model_name = 'Ensemble MobileNetV2'
+            case 'dino': 
+                disease_id = predict_dino(url)
+                model_name = 'DINOv2 + SVM'
+            case 'yolo': 
+                disease_id = predict_yolo(url)
+                model_name ='YOLOv8'
+            case 'efficientNet': 
+                pred_results = predict_efficientnet(url)
+                disease_id, confidence_score, props = pred_results
+                model_name = 'EfficientNet'
 
         # save prediction log for future use
-        log_prediction(url, disease_id)
+        log_prediction(url, disease_id, model_name)
 
         condition = retrieve_info(disease_id)
+        if condition['status'] != 0 and confidence_score:
+            condition['Confidence score'] = confidence_score
 
-        return render_template('result.html', filename=filename, url=url, condition=condition)
+        return render_template('result.html', filename=filename, url=url, condition=condition, model_name=model_name)
+
 
     return app

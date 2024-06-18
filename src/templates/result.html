@@ -4,11 +4,30 @@
 
 {% block content %}
 <div class="result-container">
-    <div class="image-box" id="image-box">
-        <!-- Hiển thị hình ảnh đã upload từ thư mục uploads -->
-        <img src="{{ url }}" alt="Uploaded Image">
+    <div class="upload-box">
+        <div class="image-box" id="image-box">
+            <!-- Hiển thị hình ảnh đã upload từ thư mục uploads -->
+            <img src="{{ url }}" alt="Uploaded Image">
+        </div>
+        <!-- Form Upload -->
+        <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" style="width: 100%;">
+            <input type="file" name="file" id="fileInput" accept=".jpg, .jpeg, .png" required title="upload image">
+            <input type="submit" value="Upload" style="display: none;">
+            <div class="custom-combobox">
+                <label value="">Chọn mô hình dự đoán</label>
+                <div class="custom-select">
+                    <select class="combobox" id="select-model" name="selected-model-data" title="Select Combobox">
+                        <option class="select-selected" value="dino">DINOv2 + SVM <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></option>
+                        <option value="ensemble">Ensemble MobileNetV2 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></option>
+                        <option value="efficientNet">EfficientNet</option>
+                        <option value="yolo">YOLOv8</option>
+                    </select>    
+                </div>
+            </div>
+        </form>
     </div>
     <div class="info-box" id="info">
+        <p class="model-title"><strong>Model sử dụng:</strong> {{ model_name }}</p>
         <!-- Hiển thị kết quả -->
         <p><strong>Kết quả tình trạng lá của bạn:</strong></p>
         <p>_______________________________</p>
@@ -23,6 +42,7 @@
             <p><strong>Biểu hiện:</strong> {{ condition["Biểu hiện"] }}</p>
             <p><strong>Giải pháp:</strong> {{ condition["Giải pháp"] }}</p>
         {% endif %}
+        {% if "Confidence score" in condition %}
         <input type="checkbox"
                id="switch"
                class="checkbox" />
@@ -30,19 +50,13 @@
         <label for="switch"
                class="toggle">
             <div class="toggle-content">
-                <p class="toggle-placeholder">Show confidence score</p>
-                <p class="confidence-score"><strong>Score:</strong> {{ condition["Confidence score"] }}</p>
+                <p class="toggle-placeholder">Hiển thị độ chính xác</p>
+                <p class="confidence-score"><strong>Điểm:</strong> {{ condition["Confidence score"] }}</p>
             </div>
         </label>
-        {% if "Confidence score" in condition %}
         {% endif %}
     </div>
 </div>
-<!-- Form Upload -->
-<form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" style="display: none;">
-    <input type="file" name="file" id="fileInput" accept=".jpg, .jpeg, .png" required>
-    <input type="submit" value="Upload">
-</form>
 <div class="loader-container">
     <div class="loader"></div>
     <p>Đang xử lý dữ liệu...</p>

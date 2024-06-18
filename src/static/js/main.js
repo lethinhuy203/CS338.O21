@@ -12,7 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.querySelector('.toggle')) {
       const toggle = document.querySelector('.toggle');
       const togglePlaceholder = toggle.querySelector('.toggle-placeholder');
+      togglePlaceholder.style.display = 'block';
       const confScore = toggle.querySelector('.confidence-score');
+      confScore.style.display = 'none';
       toggle.addEventListener('click', () => {
         const temp = togglePlaceholder.style.display;
         console.log(togglePlaceholder.style.display);
@@ -44,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const fileInput = document.getElementById('fileInput');
       const submitBtn = document.getElementById('submitBtn');
       var loader = document.querySelector('.loader-container')
+      const customCombobox = document.querySelector('.custom-combobox')
 
       // Thêm lớp dragover khi file được kéo vào
       dropZone.addEventListener('dragover', (e) => {
@@ -68,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         // an drop zone va hien loader
         dropZone.style.display = 'none'; 
+        customCombobox.style.display = 'none';
         loader.style.display = 'flex';
       });
   
@@ -80,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fileInput.addEventListener('change', () => {
         submitBtn.click();
         dropZone.style.display = 'none'; 
+        customCombobox.style.display = 'none';
         loader.style.display = 'flex';
       });
     }
@@ -89,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const infoBox = document.getElementById('info');
         const fileInput = document.getElementById('fileInput');
         const uploadForm = document.getElementById('uploadForm');
+        const customCombobox = document.querySelector('.custom-combobox')
         var loader = document.querySelector('.loader-container')
 
         imageBox.addEventListener('click', () => {
@@ -102,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // an drop zone va hien loader
             imageBox.style.display = 'none'; 
             infoBox.style.display = 'none';
+            customCombobox.style.display = 'none';
             loader.style.display = 'flex';
         });
     }

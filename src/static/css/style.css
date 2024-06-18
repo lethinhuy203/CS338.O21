@@ -279,7 +279,6 @@ button {
   line-height: 200px;
   transition: background-color 0.2s ease;
   margin: 0 auto;
-  margin-top: 20px;
   border-radius: 15px; /* Bo góc với bán kính 15px */
   /* Chỉnh sửa kiểu chữ */
   font-family: Montserrat, var(--default-font-family); /* Kiểu chữ */
@@ -310,7 +309,7 @@ button {
   max-width: 1000px;
   display: flex;
   justify-content: center; /* Căn giữa theo chiều ngang */
-  align-items: center;     /* Căn giữa theo chiều dọc */
+  align-items: flex-start;     /* Căn giữa theo chiều dọc */
   gap: 50px;  
   margin: 0 auto;             /* Khoảng cách giữa hai khung */
   margin-top: 20px;
@@ -318,7 +317,7 @@ button {
 
 /* Định dạng khung hình ảnh */
 .image-box {
-  width: 30vw;           /* Chiều rộng cố định của khung */
+  width: 100%;           /* Chiều rộng cố định của khung */
   height: 60vh;          /* Chiều cao cố định của khung */
   display: flex;          /* Sử dụng flexbox để căn giữa hình ảnh */
   justify-content: center;/* Căn giữa hình ảnh theo chiều ngang */
@@ -328,6 +327,9 @@ button {
   border: 2px solid #4d822b; /* Đường viền của khung ảnh */
   background-color: #ffffff; /* Màu nền cho khung (tùy chọn) */
   cursor: pointer;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
 /* Định dạng ảnh bên trong khung */
@@ -366,6 +368,12 @@ button {
   align-items: center;
   animation: spin 2s linear infinite;
 }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 
 /* Media Queries cho thiết bị di động và tablet */
 @media (max-width: 768px) {
@@ -460,6 +468,7 @@ button {
 
   .result-container {
     flex-direction: column;
+    align-items: center !important;
     gap: 20px;
   }
 
@@ -472,10 +481,15 @@ button {
   }
 
   .image-box {
-    width: 70vw;
+    width: 100%;
     height: auto;
   }
+
+  .model-title {
+    font-size: 13px !important;
+  }  
 }
+
 @media (max-width: 480px) {
   .main-container,
   .main-frame,
@@ -569,6 +583,7 @@ button {
   .result-container {
     flex-direction: column;
     gap: 20px;
+    align-items: center !important;
   }
 
   .info-box {
@@ -578,6 +593,56 @@ button {
     height: auto;
     text-align: left;
   }
+
+  .image-box {
+    width: 70vw;
+    height: auto;
+  }
+
+  .model-title {
+    font-size: 13px !important;
+  }  
+}
+
+
+
+/* Custom Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #4d822b;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1vw;
+  width: 1vw;
+  left: 4px;
+  bottom: 4px;
+  background-color: #4d822b;
+  transition: .4s;
+  border-radius: 50%;
+}
 
 
 /* toggle in label designing */
@@ -619,18 +684,83 @@ button {
   display : none;
 }
 
-.toggle-content, .toggle-content p {
+.toggle-content{
   margin: 0;
   color: #ffffff;
   position: relative;
   left: 2.3vw;
 }
 
-.confidence-score {
-  display: none;
+.toggle-content p {
+  margin: 0;
+  font-size: 1.5vw;
 }
-  .image-box {
-    width: 70vw;
-    height: auto;
-  }
+
+.confidence-score {
+  position: relative;
+  left: -1.5vw;
+}
+
+.model-title {
+  font-size: 15px;
+}
+
+.upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 5vw;
+}
+
+.custom-combobox {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  gap: 7px;
+  border-radius: 10px;
+  border: black;
+  align-items: center;
+}
+
+select {
+  appearance: none;
+  /* safari */
+  -webkit-appearance: none;
+  /* other styles for aesthetics */
+  width: 100%;
+  font-size: 1.15rem;
+  padding: 0.675em 6em 0.675em 1em;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.custom-select {
+  /* ... */
+  position: relative;
+}
+
+.custom-select::before,
+.custom-select::after {
+  --size: 0.3rem;
+  position: absolute;
+  content: "";
+  right: 1rem;
+  pointer-events: none;
+}
+
+.custom-select::before {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-bottom: var(--size) solid black;
+  top: 40%;
+}
+
+.custom-select::after {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid black;
+  top: 55%;
 }

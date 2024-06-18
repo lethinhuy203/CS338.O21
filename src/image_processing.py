@@ -7,6 +7,14 @@ from dotenv import load_dotenv
 from tensorflow_addons.metrics import F1Score
 
 
+from torchvision import transforms
+import torch
+import sklearn
+import pickle
+import ultralytics
+from ultralytics import YOLO
+
+
 import time
 
 load_dotenv() 
@@ -52,9 +60,17 @@ CLASS_NAMES = ['Apple___Apple_scab',
  'Tomato___healthy']
 
 
-def download_model(drive_url, model_name):
+try:
+    if MODEL_PATH not in os.listdir('.'):
+        os.makedirs(MODEL_PATH)
+except OSError as e: # name the Exception `e`
+        print( "Failed with:", e.strerror) # look what it says
+        print( "Error code:", e.code )
+
+
+def download_model(drive_url, model_name, ext='pkl'):
     """Downloads a model from Google Drive if not already present."""
-    model_path = os.path.join(MODEL_PATH, f"{model_name}.h5")
+    model_path = os.path.join(MODEL_PATH, f"{model_name}.{ext}")
     if not os.path.exists(model_path):
         print(f"Downloading model: {model_name}")
         gdown.download(
@@ -65,12 +81,15 @@ def download_model(drive_url, model_name):
         ) 
 
 
-try:
-    if MODEL_PATH not in os.listdir('.'):
-        os.makedirs(MODEL_PATH)
-except OSError as e: # name the Exception `e`
+def load_image(file_url: str, _load_func):
+    file_path = gdown.download(file_url, quiet=False,)  
+    img = _load_func(file_path)
+    try:
+        os.remove(file_path) # Remove the cached file
+    except OSError as e: # name the Exception `e`
         print( "Failed with:", e.strerror) # look what it says
         print( "Error code:", e.code )
+    return img
 
 
 def load_model_tf(model_name:str):
@@ -92,7 +111,7 @@ def load_model_tf(model_name:str):
     return model
 
 
-def read_and_prep(image_path:str, fetch:bool):
+def read_and_prep(image_path:str, _prep_func=None, fetch:bool=False):
     """
     Read an image from a path or an url 
     Params:
@@ -100,12 +119,10 @@ def read_and_prep(image_path:str, fetch:bool):
     `fetch`: if True, the server will download the file
     """
     if fetch:
-        print(image_path)
         image_url = get_url_images_in_text(image_path)[0]
         if image_url:
             try:
-                img_path = gdown.download(image_url, quiet=False,)
-                print(img_path)
+                img = load_image(image_url, lambda img_path: tf.keras.preprocessing.image.load_img(img_path))
             except:
                 return None
         else:
@@ -113,23 +130,12 @@ def read_and_prep(image_path:str, fetch:bool):
             print('Only support PNG and JPEG image or unencrypted file url')
             return None
 
-    img = tf.keras.preprocessing.image.load_img(img_path)
-    img = tf.keras.preprocessing.image.smart_resize(
-        img,
-        size=(224, 224),
-        interpolation='nearest'
-    )
-    try:
-        os.remove(img_path) # Remove the cached file
-    except OSError as e: # name the Exception `e`
-        print( "Failed with:", e.strerror) # look what it says
-        print( "Error code:", e.code )
-    img = tf.keras.preprocessing.image.img_to_array(img)
-    img = np.expand_dims(img, axis=0) / 255.
+    if _prep_func: 
+        img = _prep_func(img) 
     return img
 
 
-def predict(model, img):
+def _predict_tf(model, img):
     # Predict the class probabilities with img normalized to [0, 1]
     probs = model.predict(img)[0]
     # Get the predicted class index and name
@@ -142,21 +148,32 @@ def predict(model, img):
     return pred_class_name, pred_class_prob, probs
 
 
-def predict_sample(image_path, fetch=False, threshold=0.5, model=None):
+def preprocess_tf_image(img):
+    img = tf.keras.preprocessing.image.smart_resize(
+        img,
+        size=(224, 224),
+        interpolation='nearest'
+    )
+    img = tf.keras.preprocessing.image.img_to_array(img)
+    img = np.expand_dims(img, axis=0) / 255.
+    return img
+
+
+def predict_tf(image_path, fetch=False, threshold=0.5, model=None):
     """
     Load, preprocess and predict an image
     """
-    global CLASS_NAMES, model1
+    global CLASS_NAMES, mobilenet1
     if model is None:
-        model = model1
+        model = mobilenet1
 
-    img = read_and_prep(image_path, fetch)
+    img = read_and_prep(image_path, preprocess_tf_image, fetch)
     if img is None:
         print("We're restricted to read the file on our server, please download the file and upload")
         return
 
     # Predict the class probabilities with img normalized to [0, 1]
-    pred_class_name, pred_class_prob, probs = predict(model, img)
+    pred_class_name, pred_class_prob, probs = _predict_tf(model, img)
 
     # Find final label
     if probs[pred_class_prob] < threshold:
@@ -167,12 +184,12 @@ def predict_sample(image_path, fetch=False, threshold=0.5, model=None):
     return pred_class_name, probs[pred_class_prob], probs
 
 
-def predict_ensemble_sample(image_path, fetch=False, threshold=0.5):
+def predict_ensemble(image_path, fetch=False, threshold=0.5):
     """
     Load, preprocess and predict an image
     """
-    global CLASS_NAMES, model1, model2, model3
-    img = read_and_prep(image_path, fetch)
+    global CLASS_NAMES, mobilenet1, mobilenet2, efficientnet
+    img = read_and_prep(image_path, preprocess_tf_image, fetch=fetch)
     if img is None:
         print("We're restricted to read the file on our server, please download the file and upload")
         return
@@ -180,10 +197,10 @@ def predict_ensemble_sample(image_path, fetch=False, threshold=0.5):
     # Predict the class probabilities with img normalized to [0, 1]
     # first model
     print('Model 1')
-    _, pred_class_prob1, probs1 = predict(model1, img)
+    _, pred_class_prob1, probs1 = _predict_tf(mobilenet1, img)
     print('Model 2')
     # second model
-    _, pred_class_prob2, probs2 = predict(model2, img)
+    _, pred_class_prob2, probs2 = _predict_tf(mobilenet2, img)
     # ensemble
     # Get the predicted class index and name
     probs = (probs1 + probs2)/2
@@ -200,25 +217,73 @@ def predict_ensemble_sample(image_path, fetch=False, threshold=0.5):
     return pred_class_name, probs[pred_class_prob], probs
 
 
+def predict_dino(file_url):
+    global dinov2_vits14, svc
+    load_img = lambda file_path: transform_image(Image.open(file_path))[:3].unsqueeze(0)
+    with torch.no_grad():
+        embedding = dinov2_vits14(load_image(file_url, load_img).to(device))
+        y_pred = svc.predict(embedding)
+    
+    return y_pred[0]
+
+
+def predict_yolo(img_url):
+    global yolo_model 
+    file_path = gdown.download(img_url, quiet=False,)  
+
+    # inference
+    pred = yolo_model(file_path)[0]
+
+    # delete cache
+    try:
+        os.remove(file_path) # Remove the cached file
+    except OSError as e: # name the Exception `e`
+        print( "Failed with:", e.strerror) # look what it says
+        print( "Error code:", e.code )    
+    
+    return pred.names[pred.probs.top1]
+
+
+def predict_efficientnet(image_url):
+    return predict_tf(image_url, fetch=True, threshold=0.7, model=efficientnet)
 
 model_links = {
     'mobileNetV2_ver1': 'https://drive.google.com/file/d/18xhVHvV54WqlmincjGwwczifbtHJmHZZ/view?usp=drive_link',
     'mobileNetV2_ver2': 'https://drive.google.com/file/d/1ulDbs-PJNsMVNXEfiV2ejOFd-6h89Mnq/view?usp=drive_link',
     'efficientNet': 'https://drive.google.com/file/d/1UVdBAgm2wa62z7qAQ5raDIJQmen0AZsZ/view?usp=drive_link',
+    'dino_svm': 'https://drive.google.com/file/d/1rjohQxHorqk4zAqiE1WDFe3m0DEEInx5/view?usp=drive_link',
+    'yolo': 'https://drive.google.com/file/d/1yJgy-aNP_FZX_jL5CfSfixaQpxRAg9Oq/view?usp=drive_link',
 }
 
-for model_name in model_links:
-    download_model(model_links[model_name], model_name)
 
-
-model1 = load_model_tf(
+# LOAD TENSORFLOW MODELS
+download_model(model_links['mobileNetV2_ver1'], 'mobileNetV2_ver1', 'h5')
+mobilenet1 = load_model_tf(
     model_name='mobileNetV2_ver1'
 )
 
-model2 = load_model_tf(
+
+download_model(model_links['mobileNetV2_ver2'], 'mobileNetV2_ver2', 'h5')
+mobilenet2 = load_model_tf(
     model_name='mobileNetV2_ver2'
 )
 
-# model3 = load_model_tf(
-#     model_name='efficientNet'
-# )
+
+download_model(model_links['efficientNet'], 'efficientNet', 'h5')
+efficientnet = load_model_tf(
+    model_name='efficientNet'
+)
+
+
+# LOAD DINO SVM model
+download_model(model_links['dino_svm'], 'dino_svm', 'pkl')
+dinov2_vits14 = torch.hub.load("facebookresearch/dinov2", "dinov2_vits14")
+device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
+dinov2_vits14.to(device)
+transform_image = transforms.Compose([transforms.ToTensor(), transforms.Resize(244), transforms.CenterCrop(224), transforms.Normalize([0.5], [0.5])])
+svc = pickle.load(open(os.path.join(MODEL_PATH, 'dino_svm.pkl'), 'rb'))
+
+
+# LOAD YOLO model
+download_model(model_links['yolo'], 'yolo', 'pt')
+yolo_model = YOLO(os.path.join(MODEL_PATH, 'yolo.pt'))

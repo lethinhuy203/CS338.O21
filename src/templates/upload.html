@@ -4,7 +4,19 @@
 
 {% block content %}
 <form method="POST" action="/upload" enctype="multipart/form-data" id="uploadForm">
-    <input type="file" name="file" accept=".jpg, .jpeg, .png" required id="fileInput">
+    <div class="custom-combobox">
+        <label value="">Chọn mô hình dự đoán</label>
+        <div class="custom-select">
+            <select class="combobox" id="select-model" name="selected-model-data" title="Select Combobox">
+                <option value="dino">DINOv2 + SVM 🌟</option>
+                <option value="ensemble">Ensemble MobileNetV2 🌟</option>
+                <option value="efficientNet">EfficientNet</option>
+                <option value="yolo">YOLOv8</option>
+            </select>    
+        </div>
+    </div>
+    <br>
+    <input type="file" name="file" accept=".jpg, .jpeg, .png" required id="fileInput" title="Upload image">
     <div id="dropZone">
         Kéo thả hình ảnh vào đây hoặc nhấn để tải lên
     </div>

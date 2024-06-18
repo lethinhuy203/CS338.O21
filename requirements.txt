@@ -16,6 +16,7 @@ gunicorn
 numpy==1.23.5
 gdown==4.7.3
 pillow
+opencv-python==4.8.0.76
 
 tensorflow==2.15.0
 tensorflow-addons
@@ -28,4 +29,3 @@ scikit-learn==1.2.2
 
 # YOLO
 ultralytics==8.2.32
-onnx>=1.12.0

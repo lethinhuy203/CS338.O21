@@ -1,6 +1,6 @@
 [project]
 name = "src"
-version = "1.0.0"
+version = "1.1.0"
 description = "A web that helps users classify leaf diseases at ease"
 dependencies = [
     "flask",
@@ -12,7 +12,12 @@ dependencies = [
     "python-dotenv",
     "pillow",
     "gunicorn",
-    "waitress"
+    "waitress",
+    "tensorflow-addons",
+    "torch",
+    "torchvision",
+    "scikit-learn",
+    "ultralytics",
 ]
 
 [build-system]

@@ -4,33 +4,37 @@
 
 {% block content %}
 <div class="result-container">
-    <div class="upload-box">
+    <div class="upload-box" id="upload-box">
+        <label>Nhấn vào để upload ảnh khác</label>
         <div class="image-box" id="image-box">
             <!-- Hiển thị hình ảnh đã upload từ thư mục uploads -->
-            <img src="{{ url }}" alt="Uploaded Image">
+            <img id="currentImage" src="{{ url }}" alt="Uploaded Image" style="max-width: 350px;">
         </div>
         <!-- Form Upload -->
-        <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" style="width: 100%;">
+        <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" style="width: 350px;">
             <input type="file" name="file" id="fileInput" accept=".jpg, .jpeg, .png" required title="upload image">
-            <input type="submit" value="Upload" style="display: none;">
+            <input type="submit" value="Upload" id="submitBtn">
+            <img id="preview" src="" alt="New Image Preview" style="max-width: 350px; display: none;">
             <div class="custom-combobox">
-                <label value="">Chọn mô hình dự đoán</label>
+                <label>Chọn mô hình dự đoán</label>
                 <div class="custom-select">
                     <select class="combobox" id="select-model" name="selected-model-data" title="Select Combobox">
-                        <option class="select-selected" value="dino">DINOv2 + SVM <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></option>
-                        <option value="ensemble">Ensemble MobileNetV2 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></option>
+                        <option class="select-selected" value="dino">DINOv2 + SVM</option>
+                        <option value="ensemble">Ensemble MobileNetV2</option>
                         <option value="efficientNet">EfficientNet</option>
                         <option value="yolo">YOLOv8</option>
                     </select>    
                 </div>
+                <button class="predict-button" type="button" id="predictButton">
+                    <span class="predict">Tiến hành dự đoán</span>
+                </button>
             </div>
         </form>
     </div>
     <div class="info-box" id="info">
-        <p class="model-title"><strong>Model sử dụng:</strong> {{ model_name }}</p>
         <!-- Hiển thị kết quả -->
-        <p><strong>Kết quả tình trạng lá của bạn:</strong></p>
-        <p>_______________________________</p>
+        <p><strong>Kết quả tình trạng lá của bạn sử dụng model </strong>{{ model_name }}</p>
+        <p>________________________________________</p>
         {% if condition['status'] == 1 %}
             <p><strong>Tên lá:</strong> {{ condition["Tên lá"] }}</p>
             <p class="condition">{{ condition["Chẩn đoán"] }}</p>

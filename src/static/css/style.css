@@ -764,3 +764,34 @@ select {
   border-top: var(--size) solid black;
   top: 55%;
 }
+
+.predict-button {
+  width: 100%;
+  display: flex;
+  padding: 20px;
+  border: none;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 5px;
+  background: #4d822b;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.3s ease; /* Thêm hiệu ứng chuyển đổi màu */
+}
+
+.predict-button:hover {
+  background: #3e6823; /* Thay đổi màu chữ khi trỏ chuột vào nút */
+}
+
+.predict {
+  width: 100%;
+  justify-content: center;
+  color: #ffffff;
+  font-family: Montserrat, var(--default-font-family);
+  font-size: 17px;
+  font-weight: 10;
+  line-height: 4.2px;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 16;
+}

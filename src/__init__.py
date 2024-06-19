@@ -46,21 +46,24 @@ def create_app():
     @app.route('/upload', methods=['GET', 'POST'])
     def upload():
         if request.method == 'POST':
-            if 'file' not in request.files:
-                return redirect(request.url)
-            
-            file = request.files['file']
-            if request.form['selected-model-data']:
-                session['model-selected'] = request.form['selected-model-data']
-            else:
-                session['model-selected'] = 'ensemble'
-
-            if file.filename == '':
-                flash("No selected file!", "error")
-                return redirect(request.url)
-            
+            file = request.files.get('file', None)
+            model_selected = request.form.get('selected-model-data', 'ensemble')
+    
+            if 'currentImageUrl' in request.form:
+                # Nếu currentImageUrl có trong form, sử dụng URL này cho dự đoán
+                url = request.form['currentImageUrl']
+                filename = url.split('/')[-1]
+                session['url'] = url
+                session['filename'] = filename
+                session['model-selected'] = model_selected
+                return redirect(url_for('result'))
+        
             if file and allowed_file(file.filename):
                 app.logger.info('%s file_to_upload', file)
+                if model_selected:
+                    session['model-selected'] = model_selected
+
+                # Upload file mới
                 upload_result = cloudinary_upload(
                     file, 
                     resource_type='image',
@@ -72,9 +75,11 @@ def create_app():
                 session['filename'] = filename
                 return redirect(url_for('result'))
             else:
-                flash("File type not allowed!", "error")
+                flash("File type not allowed or no file uploaded!", "error")
+                return redirect(request.url)
 
         return render_template('upload.html')
+
 
 
     @app.route('/result',  methods=['GET'])

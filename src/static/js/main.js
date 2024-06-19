@@ -90,27 +90,81 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // Xử lý sự kiện cho trang result.html
     if (document.getElementById('image-box')) {
-        const imageBox = document.getElementById('image-box');
-        const infoBox = document.getElementById('info');
-        const fileInput = document.getElementById('fileInput');
-        const uploadForm = document.getElementById('uploadForm');
-        const customCombobox = document.querySelector('.custom-combobox')
-        var loader = document.querySelector('.loader-container')
+      const imageBox = document.getElementById('image-box');
+      const infoBox = document.getElementById('info');
+      const fileInput = document.getElementById('fileInput');
+      const uploadForm = document.getElementById('uploadForm');
+      const uploadBox = document.getElementById('upload-box');
+      const customCombobox = document.querySelector('.custom-combobox');
+      const loader = document.querySelector('.loader-container');
+      const predictButton = document.getElementById('predictButton');
+      const currentImageElement = document.getElementById('currentImage');
 
-        imageBox.addEventListener('click', () => {
-        // Kích hoạt hộp thoại chọn file
-            fileInput.click();
-        });
+      // Khi nhấn vào imageBox, kích hoạt fileInput
+      imageBox.addEventListener('click', () => {
+          fileInput.click();
+      });
 
-        fileInput.addEventListener('change', () => {
-        // Tự động submit form khi file được chọn
-            uploadForm.submit();
-        // an drop zone va hien loader
-            imageBox.style.display = 'none'; 
-            infoBox.style.display = 'none';
-            customCombobox.style.display = 'none';
-            loader.style.display = 'flex';
-        });
+      // Khi file được chọn, hiển thị preview ảnh
+      fileInput.addEventListener('change', () => {
+          const file = fileInput.files[0];
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+              // Hiển thị ảnh đã chọn trong thẻ image-box
+              imageBox.innerHTML = `<img src="${e.target.result}" alt="New Image Preview" style="max-width: 100%;">`;
+          }
+
+          if (file) {
+              reader.readAsDataURL(file);
+          }
+      });
+
+      // Khi nhấn nút "Tiến hành dự đoán"
+      predictButton.addEventListener('click', (event) => {
+        // Ngăn chặn form submit mặc định
+        event.preventDefault();
+    
+        // Kiểm tra nếu có file mới trong fileInput
+        if (fileInput.files.length > 0) {
+            // Nếu có file mới, submit form với ảnh mới (submit đến /upload)
+            submitForm();
+        } else if (currentImageElement && currentImageElement.src && currentImageElement.src !== '') {
+            // Nếu không có file mới nhưng có ảnh hiện tại, submit form với ảnh hiện tại
+            // Tạo một input hidden chứa URL của ảnh hiện tại
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'currentImageUrl';
+            hiddenInput.value = currentImageElement.src;
+
+            // Thêm input này vào form
+            uploadForm.appendChild(hiddenInput);
+
+            // Submit form
+            submitForm();
+        } else {
+            // Nếu không có file mới và không có ảnh hiện tại, yêu cầu upload ảnh
+            alert("Vui lòng chọn một file ảnh để tiến hành dự đoán.");
+        }
+    });
+
+      // Hàm submit form và hiển thị loader
+      function submitForm() {
+          // Ẩn các phần tử khác và hiển thị loader
+          hideElements();
+          // Submit form
+          uploadForm.submit();
+      }
+
+      // Hàm ẩn các phần tử khác và hiển thị loader
+      function hideElements() {
+          imageBox.style.display = 'none';
+          infoBox.style.display = 'none';
+          uploadBox.style.display = 'none';
+          customCombobox.style.display = 'none';
+          loader.style.display = 'flex';
+      }
     }
+
   });
   

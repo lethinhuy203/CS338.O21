@@ -28,14 +28,15 @@ Leaf Doctor is a user-friendly web application designed to empower you as a plan
 
 # Installations
 ## Prerequisites
-- Python 3.1x
+- `Python 3.10.x` : Can be installed via git bash or Ubuntu terminal `sudo apt install python3.10-venv`
 
 ## Run in localhost
 - Prepare:
 ```
 # Create virtual environment and activate it
-python -m venv venv
-source venv/Scripts/activate
+python3.10 -m venv venv
+source venv/Scripts/activate # windows
+# source venv/bin/activate # ubuntu
 # install required packages
 pip install -r requirements.txt
 ```
@@ -43,4 +44,4 @@ pip install -r requirements.txt
 ```flask --app src init-db```
 - Run: 
 ```flask --app src run```
-- Access: http://127.0.0.1:5000/
+- Access: http://127.0.0.1:5000/ 
